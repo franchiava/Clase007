@@ -1,0 +1,15 @@
+<div>
+    <button (click)="onCreateUser()"  mat-button color="primary" type="button">
+        <mat-icon> add </mat-icon>
+        Crear usuario
+    
+    </button>
+</div>
+
+<P> Fecha actual: {{ today | date:'dd/MM/YYYY'}}</P>
+  
+<app-users-table 
+[dataSource]="users"
+(deleteUser)="onDeleteUser($event)" 
+(editUser)="onEditUser($event)">
+</app-users-table>
