@@ -10,6 +10,7 @@ import { user } from '../../models';
 })
 export class UsersFormDialog7Component 
 {
+  editingUser?:user;
   nameControl = new FormControl <string | null> (null,[ 
     Validators.required,
     Validators.minLength(3),])
@@ -38,17 +39,13 @@ export class UsersFormDialog7Component
   @Inject (MAT_DIALOG_DATA) private data?: user ,  
 ) {
   if (this.data) {
+    this.editingUser = this.data;
     this.nameControl.setValue(this.data.name);
     this.surnameControl.setValue(this.data.surname);
     this.emailControl.setValue(this.data.email);
     this.passwordControl.setValue(this.data.name)
   }
 }
-
-
-
-
-
 
  onSubmit(): void {
   //  alert(JSON.stringify(this.userForm.value)) ASI ESTABA AL PRINCIPIO  1 

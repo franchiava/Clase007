@@ -4,9 +4,10 @@ import { UsersComponent } from './users.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UsersFormDialog7Component } from './component/users-form-dialog7/users-form-dialog7.component';
 import { UsersTableComponent } from './component/users-table/users-table.component';
-import { UserService } from './useer.service';
 import { UserMockService } from './MOCKS/user-mock.service';
 import { isFormRecord } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { UserService } from './user.service';
 
 
 
@@ -19,6 +20,7 @@ import { isFormRecord } from '@angular/forms';
   imports: [
     CommonModule,
     SharedModule,
+    RouterModule,
   ],
   exports: [
     UsersComponent
@@ -31,6 +33,7 @@ import { isFormRecord } from '@angular/forms';
     {
       provide: 'IS_DEV',
       useValue: true ,
+
       },
       {
         provide: UserService,
@@ -38,7 +41,7 @@ import { isFormRecord } from '@angular/forms';
           const IsDev = false;
 
           return IsDev ? new UserMockService() : new UserService
-        },
+                },
         
         },
   ],

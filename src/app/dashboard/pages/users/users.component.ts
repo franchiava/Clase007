@@ -2,9 +2,9 @@ import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UsersFormDialog7Component } from './component/users-form-dialog7/users-form-dialog7.component';
 import { user } from './models';
-import { UserService } from './useer.service';
 import { Observable, Subject, Subscriber, Subscription, map, takeUntil } from 'rxjs';
 import { NotifierService } from 'src/app/core/services/notifier.service';
+import { UserService } from './user.service';
 
 
 // const ELEMENT_DATA: user[] = 
@@ -37,55 +37,9 @@ export class UsersComponent implements OnDestroy {
   this.userService.getUsers().subscribe ({
     next: (v) => {
       this.users = v
-      this.userService.sendNotificacion('Se cargaron los usuarios');
     }
   })
-  // console.log(this.IsDev)
  
-
-const MeDevuelveEldinero = new Promise((resolve, reject) => {
- setTimeout(() => {
-  
-//  reject('El dinero no ha sido devuelto')
-},2000)
-})
-
-MeDevuelveEldinero
-.then((value) => console.log(value))
-.catch((error) => alert(error))
-.finally(() => {})
-
-const semaforo = new Observable((Subscriber) => {
-  let color = 'rojo';
-  setInterval(() => {
-  if (color === 'rojo') {
-    Subscriber.next('rojo');
-    color= 'verde'}
-    else {
-      Subscriber.next('verde');
-      color= 'rojo'
-      Subscriber.complete()
-  }})
-  }
-)
-//Pipe viene de la palabra tuberia
-this.semaforoSuscription = semaforo.pipe(
-  takeUntil(this.destroyed),
-  // map((color) => color.toUpperCase())
-)
-.subscribe ({
- next: (color) => {console.log(color)},
- error: () => {},
- complete: () => {
-  console.log('Se completo')
- },
-})
-
-// fetch('https://regres.in/api/users?page=2')
-// .then((respuestaDelServidor) => respuestaDelServidor.json())
-// .then((data) => console.log(data))
-//No me funciono esto por alguna razon
-
  }
   ngOnDestroy(): void {
     console.log('Se destruyo');
@@ -120,8 +74,8 @@ this.semaforoSuscription = semaforo.pipe(
     })}
 
     onDeleteUser(userToDelete: user) :void{
-      if (confirm('Esta seguro de eliminar a ?')) {
-        this.users = this.users.filter((u) => u.id !== userToDelete.id)
+      if (confirm('Esta seguro de eliminar?')) {
+        this.userService.deleteUserById(userToDelete.id)
       }
     }
 
@@ -135,15 +89,12 @@ this.semaforoSuscription = semaforo.pipe(
         { next: (userUpdated) => {
 
          if(userUpdated) {
-          this.users = this.users.map((user) => {
-            return user.id === userToEdit.id
-            ? userUpdated
-            : user
-          })
-         }
-
-        }})
-    }
-  }
+         this.userService.updateUserById(userToEdit.id, userUpdated)
+          }
+        }})}
+      
+      
+      }
+      
  
     

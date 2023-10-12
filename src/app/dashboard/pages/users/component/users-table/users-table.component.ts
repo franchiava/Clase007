@@ -16,6 +16,27 @@ const ELEMENT_DATA: user[] = [
     surname: 'Chiavassa',
     email: 'fraancotiago@gmail.com',
     password: 'luispedro',
+  },
+  {
+    id: 3,
+    name: 'Guillermo',
+    surname: 'Chiavassa',
+    email: 'fraancotiago@gmail.com',
+    password: 'luispedro',
+  },
+  {
+    id: 4,
+    name: 'Sol',
+    surname: 'Chiavassa',
+    email: 'fraancotiago@gmail.com',
+    password: 'luispedro',
+  },
+  {
+    id: 5,
+    name: 'Jose',
+    surname: 'Chiavassa',
+    email: 'fraancotiago@gmail.com',
+    password: 'luispedro',
   }
 
 ];

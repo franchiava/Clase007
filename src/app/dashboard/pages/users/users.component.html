@@ -5,11 +5,10 @@
     
     </button>
 </div>
-
-<P> Fecha actual: {{ today | date:'dd/MM/YYYY'}}</P>
-  
 <app-users-table 
 [dataSource]="users"
 (deleteUser)="onDeleteUser($event)" 
 (editUser)="onEditUser($event)">
 </app-users-table>
+
+<!-- <P> Fecha actual: {{ today | date:'dd/MM/YYYY'}}</P> -->

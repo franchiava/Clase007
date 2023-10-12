@@ -5,3 +5,18 @@ export interface user {
     email: string;
     password: string;
   }
+
+  export interface CreateUserData {
+    name: string;
+    surname: string;
+    email: string;
+    password: string;
+  }
+
+  export interface UpdateUserData {
+    name?: string;
+    surname?: string;
+    email?: string;
+    password?: string;
+  }
+

@@ -1,3 +1,11 @@
+<h1 mat-dialog-title> 
+    {{
+        editingUser
+        ? "Editando a " + editingUser.name + " " + editingUser.surname
+        : "Creando usuario"
+    }}
+</h1>
+
 <div mat-dialog-content>
     <form class="formulario" [formGroup]="userForm" >
     <div class="col-6 field"> 
@@ -38,7 +46,6 @@
             <input formControlName="password" matInput type="password" name="password" />
         </mat-form-field>
     </div>
-
     </form>
 
 </div>
@@ -49,7 +56,4 @@
             <button (click)="onSubmit()" type="submit" mat-button>
                 Guardar
             </button>
-
-
-
-    </div>
+</div>
