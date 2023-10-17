@@ -8,6 +8,7 @@ import { UserMockService } from './MOCKS/user-mock.service';
 import { isFormRecord } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UserService } from './user.service';
+import { UsersRoutingModule } from './users-routing.module';
 
 
 
@@ -21,10 +22,14 @@ import { UserService } from './user.service';
     CommonModule,
     SharedModule,
     RouterModule,
+    UsersRoutingModule,
   ],
   exports: [
-    UsersComponent
+    UsersComponent,
   ],
+
+
+  
   providers: [
     // {
     // provide: UserService,

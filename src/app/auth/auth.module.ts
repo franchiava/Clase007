@@ -5,6 +5,7 @@ import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { AuthRoutingModule } from './auth-routing.module';
 
 
 
@@ -18,6 +19,7 @@ import { RegisterComponent } from './pages/register/register.component';
     CommonModule,
     SharedModule,
     RouterModule,
+    AuthRoutingModule,
   ],
   exports: [
     AuthComponent

@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { NavMenuComponent } from './layout/nav-menu/nav-menu.component';
 import {ToolbarComponent} from './layout/toolbar/toolbar.component';
 import { UsersDetailComponent } from './pages/component/pages/users-detail/users-detail.component';
+import { DashboardRoutingModule } from './dashboard-routing.module';
 
 
 
@@ -20,10 +21,12 @@ import { UsersDetailComponent } from './pages/component/pages/users-detail/users
   ],
   imports: [
     CommonModule,
+    DashboardRoutingModule,
     SharedModule,
     HomeModule,
     UsersModule,
     RouterModule,
+    
   ],
   exports: [
     DashboardComponent
