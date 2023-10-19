@@ -15,24 +15,13 @@ import { UserService } from './user.service';
 })
 export class UsersComponent implements OnDestroy {
  public users: user [] = [];
-
  public today = new Date();
  public anotherToday = new Date();
 
- public semaforoSuscription ?: Subscription;
 
  public destroyed = new Subject<boolean>();
 
- constructor(
-  private matDialog: MatDialog,
-
-  private userService: UserService,
-
-  private notifier: NotifierService,
-
-  
-  @Inject ('IS_DEV') private IsDev: boolean,
-){
+ constructor(private matDialog: MatDialog, private userService: UserService, private notifier: NotifierService,) {
   this.userService.loadUser(),
   this.userService.getUsers().subscribe ({
     next: (v) => {
@@ -41,12 +30,7 @@ export class UsersComponent implements OnDestroy {
   })
  
  }
-  ngOnDestroy(): void {
-    console.log('Se destruyo');
-    this.semaforoSuscription?.unsubscribe();
-
-    this.destroyed.next(true);
-  }
+  ngOnDestroy(): void {}
 
   onCreateUser(): void {
     const dialogRef = this.matDialog 
@@ -55,22 +39,23 @@ export class UsersComponent implements OnDestroy {
     .subscribe(   //hago esto
       { next: (v) => {
         if (v) { 
-          this.notifier.showSuccess('Se cargaron los usuarios correctamente')
-        
-          this.users = [ 
-            ...this.users,
-            {
-              id: this.users.length + 1,
-              name: v.name,
-              surname: v.surname,
-              email: v.email,
-              password: v.password,
-            },
-          ];
-         
-          console.log("Recibimos un valor", v)}
-        else {
-          console.log("Se cancelo") }}
+        this.notifier.showSuccess('Se cargaron los usuarios correctamente')
+        this.userService.createUser(v)
+        //  this.users = [ 
+        //     ...this.users,
+        //     {
+        //       id: this.users.length + 1,
+        //       name: v.name,
+        //       surname: v.surname,
+        //       email: v.email,
+        //       password: v.password,
+        //     },
+        //   ];
+        }
+        //   console.log("Recibimos un valor", v)}
+        // else {
+        //   console.log("Se cancelo") }
+        }
     })}
 
     onDeleteUser(userToDelete: user) :void{

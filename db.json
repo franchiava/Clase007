@@ -1,0 +1,21 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Franco",
+      "surname": "Chiavassa",
+      "email": "fraancotiago@gmail.com",
+      "token": "FFSSFFAASSBSSSAFSSDD",
+      "password": "123456"
+    },
+    {
+      "name": "Hola",
+      "surname": "quetal",
+      "email": "francojose@gmail.com",
+      "password": "123456",
+      "token": "FFSSFFAASSBSSSAFSSFS",
+      "id": 3
+    }
+  ],
+  "products": []
+}

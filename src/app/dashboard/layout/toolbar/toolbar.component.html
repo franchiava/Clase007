@@ -1,5 +1,5 @@
-<mat-toolbar color="primary">
-    <button 
+<mat-toolbar class="flex justify-content-between align-center" color=#FFC9DEF5>
+  <div>  <button 
      mat-icon-button
      class="example-icon" 
      aria-label="Example icon-button with menu icon"  
@@ -9,4 +9,8 @@
     </button>
     <span>Mi aplicacion</span>
     <span class="example-spacer"></span>
+  </div>
+
+   <p *ngIf="authUser$ | async; let authUser">
+      {{ (authUser$ | async)?.name }}  {{ (authUser$ | async)?.surname }} </p>
   </mat-toolbar> 

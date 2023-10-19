@@ -1,24 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CreateUserData, user } from './models';
-import { BehaviorSubject, Observable, Subject, delay, map, observable, of, take } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, delay, map, mergeMap, observable, of, take } from 'rxjs';
 import { NotifierService } from 'src/app/core/services/notifier.service';
-
-const USER_DB:  Observable <user[]> = of(
-[
-  {
-    id: 1,
-    name: 'Franco',
-    surname: 'Chiavassa',
-    email: 'fraancotiago@gmail.com',
-    password: 'luispedro',
-  }, 
-  {
-    id: 2,
-    name: 'Franco',
-    surname: 'Chiavassa',
-    email: 'fraancotiago@gmail.com',
-    password: 'luispedro',
-  }]).pipe(delay(1000))
+import { HttpClient } from '@angular/common/http';
+import {generateRandomString} from 'src/app/shared/utils/helpers'
+import { enviroment } from 'environments/enviroment';
 
 @Injectable({
   providedIn: 'root'
@@ -26,63 +12,120 @@ const USER_DB:  Observable <user[]> = of(
 export class UserService {
   private users: user[] = []
 
-  private users$ = new BehaviorSubject <user[]>([]);
+  private _users$ = new BehaviorSubject<user[]>([]);
 
-  private sendNotificacion$ = new Subject <string>();
+  private users$ = this._users$.asObservable();
 
-  constructor()
-  { 
-  this.sendNotificacion$.subscribe ({
-    next: (message) => alert (message),
-  })
-  }
+  private sendNotificacion$ = new Subject<string>();
 
-  sendNotificacion (notificacion: string) : void {
-    this.sendNotificacion$.next(notificacion);
-  }
-  //Primero cargo los usuarios y luego me subscribo
-  loadUser() : void {
-    USER_DB.subscribe({
-      next: (usuariosFromDb) => this.users$.next(usuariosFromDb)
+  private _isLoading$ = new BehaviorSubject(false);
+
+  public isLoading$ = this._isLoading$.asObservable();
+
+  constructor(private httpClient: HttpClient, private notifier: NotifierService) {
+    this.sendNotificacion$.subscribe({
+      next: (message) => alert(message),
     })
-    }
+  }
 
-   getUsers() : Subject<user[]> {
-    return this.users$
-   } 
+  loadUser(): void {
+    // USER_DB.subscribe({
+    //   next: (usuariosFromDb) => this._users$.next(usuariosFromDb)
+    // })
+    this._isLoading$.next(true);
+    this.httpClient.get<user[]>(enviroment.baseApiUrl +  '/users').subscribe({
+      next: (Response) => {
+        console.log('response: ', Response)
+        this._users$.next(Response)
+      },
+      error: () => {
+        this.notifier.showError('No se pudo cargar los usuarios')
+      },
 
-   getUserById(id: number): Observable<user | undefined> {
-      return this.users$.pipe(
-        map((users) => users.find((u) => u.id === id)),take(1))
+      complete: () => {
+        this._isLoading$.next(true);
 
-   }
+      },
 
-   createUser(user: CreateUserData): void {
-    this.users$.pipe(take(1)).subscribe({
+    })
+  }
+
+  getUsers(): Subject<user[]> {
+    return this._users$
+  }
+
+  getUserById(id: number): Observable<user | undefined> {
+    return this._users$.pipe(
+      map((users) => users.find((u) => u.id === id)), take(1))
+
+  }
+
+  createUser(payload: CreateUserData): void {
+    // this._users$.pipe(take(1)).subscribe({
+    //   next: (arrayActual) => {
+    //     this._users$.next([...arrayActual,
+    //     {...user,id: arrayActual.length +1}]); }})
+const token = generateRandomString(20)
+
+    this.httpClient.post<user>(enviroment.baseApiUrl +   '/users', {...payload, token})
+      .pipe(
+        mergeMap((UserCreated) => this._users$.
+          pipe(take(1),
+            map((arrayActual) => [...arrayActual, UserCreated]))
+        )
+      )
+      .subscribe({
+        next: (ArrayActualizado) => {
+          this._users$.next(ArrayActualizado)
+
+        }
+      })
+
+  }
+
+  updateUserById(id: number, usuarioActualizado: user): void {
+    this._users$.pipe(take(1)).subscribe({
       next: (arrayActual) => {
-        this.users$.next([...arrayActual,
-        {...user,id: arrayActual.length +1}]);
-        
+        this._users$.next(
+          arrayActual.map((u) =>
+            u.id === id
+              ? { ...u, ...usuarioActualizado }
+              : u
+          ))
       }
     })
-   }
+  }
 
-   updateUserById (id:number , usuarioActualizado: user): void {
-    this.users$.pipe(take(1)).subscribe({
-    next: (arrayActual) => {
-      this.users$.next(
-        arrayActual.map((u) => 
-        u.id === id
-        ? {...u, ...usuarioActualizado} 
-        : u
-      ))
-    }})
-   }
+  deleteUserById(id: number): void {
+    // this._users$.pipe(take(1)).subscribe({
+    //   next: (arrayActual) => {
+    //   this._users$.next(arrayActual.filter((u) => u.id !== id))
+    // }})}
 
-   deleteUserById (id:number) : void {
-    this.users$.pipe(take(1)).subscribe({
-      next: (arrayActual) => {
-      this.users$.next(arrayActual.filter((u) => u.id !== id))
-    }})}
+    // Punto numero 1. Comunicar con la api y eliminar el usuario 
+    // Punto numero 2. Actualizar el listado (array de Usuarips)
+    this.httpClient.delete(enviroment.baseApiUrl +  '/users' + id)
+      .pipe(  //1
+        mergeMap(
+          (responseUserDelete) => this.users$.pipe(
+            take(1),
+            map(
+              (arrayActual) => arrayActual.filter((u) => u.id !== id) //2
+            )
+          )
+        )
+      ).subscribe({
+        next: (arrayActualizado) => this._users$.next(arrayActualizado)
+      })
+
+
+
+
+  }
+
+
+  sendNotificacion(notificacion: string): void {
+    this.sendNotificacion$.next(notificacion);
+  }
 
 }

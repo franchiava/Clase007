@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AppRoutingModule } from './app-routing.module';
 import { ProductsModule } from './dashboard/pages/products/products.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ProductsModule } from './dashboard/pages/products/products.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     ProductsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
