@@ -5,20 +5,26 @@ import { user } from "../dashboard/pages/users/models";
 import { NotifierService } from "../core/services/notifier.service";
 import { Router } from "@angular/router";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { Store } from "@ngrx/store";
+import { AuthActions } from "../store/auth/auth.actions";
 
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    private _authUser$ = new BehaviorSubject<user | null>(null);
-    public authUser$ = this._authUser$.asObservable();
+    // private _authUser$ = new BehaviorSubject<user | null>(null);
+    // public authUser$ = this._authUser$.asObservable();
 
-    constructor(private notifier: NotifierService, private router: Router, private httpClient: HttpClient) { }
+    constructor(
+        private notifier: NotifierService,
+        private router: Router,
+        private httpClient: HttpClient,
+        private store: Store) { }
 
     isAuthenticated(): Observable<boolean> {
         // return this.authUser$.pipe(
         //     map((user) => !!user),
         //     take(1))
-        return this.httpClient.get<user[]>('http://localhost:3000/users' ,{
+        return this.httpClient.get<user[]>('http://localhost:3000/users', {
             params: {
                 token: localStorage.getItem('token') || '',
             }
@@ -40,25 +46,28 @@ export class AuthService {
             next: (response) => {
                 if (response.length) {
                     const authUser = response[0];
-                    this._authUser$.next(authUser);
+                    // this._authUser$.next(authUser);
+                    this.store.dispatch(AuthActions.setAuthUser({ payload: authUser }))
+
+
+
                     this.router.navigate(['/dashboard'])
                     localStorage.setItem('token', authUser.token);
                 } else {
                     this.notifier.showError('Usuario incorrecto')
-                    this._authUser$.next(null);
+                    // this._authUser$.next(null);
                 }
             },
             error: (err) => {
-                if (err instanceof HttpErrorResponse)
-                {
-                if (err.status === 500){}
+                if (err instanceof HttpErrorResponse) {
+                    if (err.status === 500) { }
                 }
-            
+
                 this.notifier.showError('Ocurrio un error inesperado')
             }
-            
+
         })
-        
+
         // const MOCK_USER: user =
         //  {   id: 34,
         //     name: 'Mockname',
@@ -74,5 +83,9 @@ export class AuthService {
         //     this.notifier.showError('Usuario incorrecto')
         //     this._authUser$.next(null);
         // }
+    }
+
+    public logout(): void {
+        this.store.dispatch(AuthActions.setAuthUser({ payload: null }))
     }
 }

@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, Subject, delay, map, mergeMap, observable,
 import { NotifierService } from 'src/app/core/services/notifier.service';
 import { HttpClient } from '@angular/common/http';
 import {generateRandomString} from 'src/app/shared/utils/helpers'
-import { enviroment } from 'environments/enviroment';
+import { enviroment } from 'src/environments/enviroment';
 
 @Injectable({
   providedIn: 'root'
