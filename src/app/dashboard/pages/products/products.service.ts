@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, take } from 'rxjs';
 import { Product } from './models';
+import { HttpClient } from '@angular/common/http';
+import { enviroment } from 'src/environments/enviroment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,7 @@ export class ProductsService {
 
   private products$ = new BehaviorSubject<Product[]>([]);
 
-  constructor() { }
+  constructor(private httpClient:HttpClient) { }
 
   getProducts(): Observable<Product[]> {
     return this.products$.asObservable();
@@ -44,12 +46,11 @@ export class ProductsService {
   create () :void {
     this.products$.pipe(take(1)).subscribe({
       next: (arrayActual) => {
-
         this.products$.next([...arrayActual,
           {
             id: arrayActual.length+1,
-            name: 'Random name',
-            description: 'Random description',
+            name: 'Random',
+            description: 'Random',
             price: 2000,
             stock: 20,
           }
@@ -64,4 +65,9 @@ export class ProductsService {
       }
     })
   }
+
+  getProductsByCategoryId(categoryId: number): Observable <Product[]> {
+    return this.httpClient.get<Product[]>(enviroment.baseApiUrl + `/products?categoryId=${categoryId}`)
+}
+
 }

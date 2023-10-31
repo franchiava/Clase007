@@ -13,29 +13,28 @@ export class ProductsComponent implements OnInit, OnDestroy {
   public dataSource: Product[] = [];
   public data$: Observable<Product[]>;
   public displayedColumns = ['id', 'name', 'price', 'actions'];
-  
-  constructor(private productsService: ProductsService) { 
+
+  constructor(private productsService: ProductsService) {
     this.data$ = this.productsService.getProducts();
   }
-
-  ngOnDestroy(): void {}
-
   ngOnInit(): void {
     this.productsService.loadProcuts();
-
-    this.productsService
-    .getProducts()
-    .pipe(take(1))
-    .subscribe({
-      next: (data) => console.log('data: ', data)
-    });
+    this.productsService.getProducts()
+      .pipe(take(1))
+      .subscribe({
+        next: (data) => (data)
+      });
   }
+
+  ngOnDestroy(): void {
+  }
+  
 
   OnCreate(): void {
     this.productsService.create()
   }
 
-  onDelete(id: number) : void {
+  onDelete(id: number): void {
     this.productsService.deleteById(id);
   }
 

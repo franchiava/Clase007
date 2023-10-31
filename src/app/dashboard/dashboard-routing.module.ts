@@ -4,7 +4,7 @@ import { HomeComponent } from "./pages/home/home.component";
 import { ProductsComponent } from "./pages/products/products.component";
 import { UsersComponent } from "./pages/users/users.component";
 import { CategoriesComponent } from "./pages/categories/categories.component";
-import { CountComponent } from "./count/count/count.component";
+import { CountComponent } from "./pages/count/count.component";
 
 @NgModule({
     imports: [
@@ -26,7 +26,7 @@ import { CountComponent } from "./count/count/count.component";
             {
                 path: 'count',
                 component: CountComponent,
-                loadChildren: () => import('./count/count/count.module').then((m) => m.CountModule)
+                loadChildren: () => import('./pages/count/count.module').then((m) => m.CountModule)
             },
             {
                 path: 'products',

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotifierService } from 'src/app/core/services/notifier.service';
-import { user } from '../../../users/models';
-import { UserService } from '../../../users/user.service';
+import { user } from '../../models';
+import { UserService } from '../../user.service';
 
 @Component({
   selector: 'app-users-detail',
@@ -15,14 +15,14 @@ public user: user | null = null;
 public userId?: number;
 
 
-  constructor (
-    private activatedRoute: ActivatedRoute,
+  constructor ( private activatedRoute: ActivatedRoute,
     private Router:Router, 
     private Notification: NotifierService,
-    private userService: UserService)
-    {
+    private userService: UserService){
+      
     console.log(this.activatedRoute.snapshot.params['id'])
     console.log(this.activatedRoute.snapshot.paramMap.get('id'))
+    
     if (!Number(this.activatedRoute.snapshot.params['id'])){
 
       this.Router.navigate(['dashboard', 'users']);
@@ -35,7 +35,6 @@ public userId?: number;
 
   loadUser(): void {
     if (this.userId) {
-
       this.userService.getUserById(this.userId).subscribe({
         next: (user) => console.log(user),
       })

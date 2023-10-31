@@ -2,20 +2,38 @@
   "users": [
     {
       "id": 1,
-      "name": "Franco",
-      "surname": "Chiavassa",
-      "email": "fraancotiago@gmail.com",
-      "token": "FFSSFFAASSBSSSAFSSDD",
-      "password": "123456"
-    },
-    {
-      "name": "Hola",
-      "surname": "quetal",
-      "email": "francojose@gmail.com",
+      "name": "buru",
+      "surname": "c",
+      "email": "franco@gmail.com",
       "password": "123456",
-      "token": "FFSSFFAASSBSSSAFSSFS",
-      "id": 3
+      "role": "USUARIO",
+      "token": "AFASSFSSSSFFASFSSFSS"
     }
   ],
-  "products": []
+  "products": [
+    {
+      "id": 1,
+      "name": "heladera",
+      "description": "lorem ipsum",
+      "price": 30,
+      "stock": 21,
+      "categoryId": 1
+    },
+    {
+      "      id": 2,
+      "name": "microondas",
+      "description": "lorem ipsum",
+      "price": 21020,
+      "stock": 13,
+      "categoryId": 2
+    },
+    {
+      "id": 3,
+      "name": "computadoras",
+      "description": "lorem ipsum",
+      "price": 230,
+      "stock": 25,
+      "categoryId": 2
+    }
+  ]
 }

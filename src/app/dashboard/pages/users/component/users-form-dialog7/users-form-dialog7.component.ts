@@ -24,11 +24,15 @@ export class UsersFormDialog7Component
   passwordControl = new FormControl <string | null>  (null, [ 
   Validators.required]) ;
 
+  roleControl = new FormControl (null, [Validators.required])
+
+
  userForm = new FormGroup( {
    name: this.nameControl,
    surname: this.surnameControl,
    email: this.emailControl,
    password: this.passwordControl,
+   role: this.roleControl,
  })
  
 
@@ -36,8 +40,8 @@ export class UsersFormDialog7Component
  
  constructor(
   private dialogRef: MatDialogRef<UsersFormDialog7Component>,
-  @Inject (MAT_DIALOG_DATA) private data?: user ,  
-) {
+  @Inject (MAT_DIALOG_DATA) 
+  private data?: user ) {
   if (this.data) {
     this.editingUser = this.data;
     this.nameControl.setValue(this.data.name);

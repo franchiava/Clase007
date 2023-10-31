@@ -8,6 +8,7 @@ import { user } from "../models";
           surname: 'FAKE_SURNAME',
           email: 'FAKEEMAIL@gmail.com',
           password: 'FAKE PASSWORD',
+          token: 'asasasasasasasasasasas'
         }, 
         
       ];

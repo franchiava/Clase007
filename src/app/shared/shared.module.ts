@@ -13,6 +13,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
 
 
 
@@ -41,7 +42,7 @@ import {MatRadioModule} from '@angular/material/radio';
     MatTableModule,
     MatCardModule,
     MatRadioModule,
-  
+    MatSelectModule,
   ]
 })
 export class SharedModule { }

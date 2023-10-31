@@ -11,17 +11,7 @@ import { user } from '../../models';
 
 export class UsersTableComponent {
   displayedColumns: string[] = ['id', 'name', 'surname', 'email', 'Actions'];
-
-  @Input()
-
-  dataSource: user[] = [];
-
-  @Output()
-
-  deleteUser = new EventEmitter<user>();
-
-  @Output()
-
-  editUser= new EventEmitter<user>();
-  
+  @Input()  dataSource: user[] = [];
+  @Output() deleteUser = new EventEmitter<user>();
+  @Output() editUser = new EventEmitter<user>();
 }
